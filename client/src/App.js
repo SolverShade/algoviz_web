@@ -26,7 +26,7 @@ function Main() {
   }
 
   return (
-    <div>
+    <div style={style}>
       <ul>
         <li>
           <Link to="/mergeSort">MergeSort</Link>
@@ -39,5 +39,15 @@ function Main() {
     </div>
   );
 }
+
+const style = {
+  backgroundImage: `url(${process.env.PUBLIC_URL + '/space.png'})`,
+  height: "120vh",
+  marginTop: "0px",
+  fontSize: "50px",
+  //backgroundSize: "cover",
+  backgroundRepeat: "no-repeat",
+  imageRendering: "pixelated",
+};
 
 export default App;
