@@ -1,0 +1,23 @@
+.container {
+  display: flex;
+  justify-content: center;
+}
+
+.half {
+  flex: 1;
+}
+
+
+.half:nth-child(1) {
+  display: flex;
+  flex-direction: column;
+  margin-left: 36px;
+  margin-right: 36px;
+}
+
+
+.half:nth-child(2) {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
