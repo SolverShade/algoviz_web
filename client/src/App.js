@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 //import './App.css';
 import { MSortPage } from "./pages/MergeSortPage";
+//import { Circle } from './widgets/Circle';
 
 import {
   BrowserRouter as Router,
@@ -36,7 +37,9 @@ function Main() {
       <Routes>
         <Route path="/mergeSort" element={<MSortPage />} />
       </Routes>
+
     </div>
+
   );
 }
 

@@ -20,10 +20,12 @@ from django.urls import path, re_path
 from django.conf import settings
 
 from react.views import serve_react
+from algorithms import mergesort
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     re_path(
         r"^(?P<path>.*)$", serve_react, {"document_root": settings.REACT_APP_BUILD_PATH}
     ),
+    path("api/mergesort/graph-data/", mergesort.nodes, name="graph-data"),
 ]
