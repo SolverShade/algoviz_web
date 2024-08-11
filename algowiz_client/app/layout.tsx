@@ -1,3 +1,6 @@
+import '@/app/ui/global.css';
+import SideNav from './ui/dashboard/sidenav';
+
 export default function RootLayout({
   children,
 }: {
@@ -5,7 +8,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <SideNav />
+        {children}
+      </body>
     </html>
   );
 }
