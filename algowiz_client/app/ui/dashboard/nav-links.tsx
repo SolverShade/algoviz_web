@@ -1,6 +1,7 @@
 'use client'
 import React from 'react';
 import {useState} from 'react';
+import Image from 'next/image';
 
 export interface NavItem {
   title: string,
@@ -23,7 +24,20 @@ const NavLinks: React.FC<NavDropdownProps> = ({items}) => {
   return (
     <div>
       <button onClick={toggleDropdown}>
-        {isOpen ? 'Hide' : 'Show'}
+        {isOpen
+          ?
+          <div className='flex'>
+          <Image src='/terminal_arrow_gray.svg' alt="img_missing"
+            width={12} height={12} />
+          <p>Hide</p>
+          </div>
+          :
+          <div className='flex'>
+          <Image src='/terminal_arrow_gray.svg' alt="img_missing"
+            width={12} height={12} />
+          <p>Show</p>
+          </div>
+        }
       </button>
       {isOpen && (
         <ul>
