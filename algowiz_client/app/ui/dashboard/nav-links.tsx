@@ -1,40 +1,25 @@
-import {
-  UserGroupIcon,
-  HomeIcon,
-  DocumentDuplicateIcon,
-} from '@heroicons/react/24/outline';
-import Image from 'next/image';
+'use client'
+import React from 'react';
+import NavLink from './navLink';
 
-const arrowIconPath = '/terminal_arrow_gray.svg';
-
-// Map of links to display in the side navigation.
-// Depending on the size of the application, this would be stored in a database.
-const links = [
-  { name: 'Home', href: '/dashboard', icon: HomeIcon },
-  {
-    name: 'Invoices',
-    href: '/dashboard/invoices',
-    icon: DocumentDuplicateIcon,
-  },
-  { name: 'Customers', href: '/dashboard/customers', icon: UserGroupIcon },
+const links: NavLink[] = [
+  new NavLink({}, 'sorting algorithms', '',
+    [
+      new NavLink({}, 'merge sort', '/merge_sort', []),
+      new NavLink({}, 'quick sort', '/quick_sort', []),
+      new NavLink({}, 'stalin sort', '/stalin_sort', []),
+    ],
+  ),
 ];
 
 export default function NavLinks() {
   return (
     <>
-      {links.map((link) => {
-        const LinkIcon = link.icon;
-        return (
-          <a
-            key={link.name}
-            href={link.href}
-            className="flex h-[48px] grow items-center justify-center gap-2 rounded-md bg-gray-50 p-3 text-sm font-medium hover:bg-sky-100 hover:text-blue-600 md:flex-none md:justify-start md:p-2 md:px-3"
-          >
-            <Image src={arrowIconPath} alt="Arrow icon" width={12} height={12} />
-            <p className="hidden md:block">{link.name}</p>
-          </a>
-        );
-      })}
+      {links.map((link, index) => (
+        <React.Fragment key={index}>
+          {link.render()}
+        </React.Fragment>
+      ))}
     </>
   );
 }
