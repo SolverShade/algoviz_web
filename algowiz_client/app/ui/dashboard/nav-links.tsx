@@ -2,6 +2,7 @@
 import React from 'react';
 import { useState } from 'react';
 import Image from 'next/image';
+import Link from 'next/link';
 
 export interface NavItem {
   title: string,
@@ -28,22 +29,20 @@ const NavLinks: React.FC<NavDropdownProps> = ({ items, depth = 0 }) => {
   return items.map((item) => {
     return (
       <div className='flex flex-col' style={marginStyle} >
-        <button onClick={toggleDropdown}>
-          {isOpen
-            ?
+        {item.href !== undefined
+          ?
+          <div className='flex'>
+            <Link href={item.href}>{item.title}</Link>
+          </div>
+          :
+          <button onClick={toggleDropdown}>
             <div className='flex'>
               <Image src='/terminal_arrow_gray.svg' alt="img_missing"
                 width={12} height={12} />
               <p>{item.title}</p>
             </div>
-            :
-            <div className='flex'>
-              <Image src='/terminal_arrow_gray.svg' alt="img_missing"
-                width={12} height={12} />
-              <p>{item.title}</p>
-            </div>
-          }
-        </button>
+          </button>
+        }
         {isOpen && (
           <ul>
             {items.map((item, index) => (
