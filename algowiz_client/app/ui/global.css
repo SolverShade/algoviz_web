@@ -16,3 +16,35 @@ input[type='number']::-webkit-outer-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
+* {
+  margin: 0;
+  box-sizing: border-box;
+
+  .sidenav {
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-direction: column;
+    position: relative;
+    float: left;
+    width: 15%;
+    height: 100%;
+  }
+
+  .content {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    margin-top: 5rem;
+    position: relative;
+    float: left;
+    width: 45%;
+    height: 100%;
+  }
+
+  .visuals {
+    padding-right: 65%;
+  }
+}

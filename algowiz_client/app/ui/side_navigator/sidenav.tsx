@@ -27,7 +27,7 @@ const items: NavItem[] =
 
 export default function SideNav() {
   return (
-    <div className="sidenavContainer">
+    <div className="sidenav">
       <Link className="logo" href="/">
         <div>
           <AcmeLogo />
