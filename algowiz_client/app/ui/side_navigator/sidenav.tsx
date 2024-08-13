@@ -15,11 +15,11 @@ const items: NavItem[] =
         },
         {
           title: 'quick sort',
-          href: '/quick_sort',
+          href: '/algorithms/quick_sort',
         },
         {
           title: 'stalin sort',
-          href: '/stalin_sort',
+          href: '/algorithms/stalin_sort',
         },
       ],
     },
@@ -28,16 +28,14 @@ const items: NavItem[] =
 export default function SideNav() {
   return (
     <div className="sidenavContainer">
-      <Link className="logo"
-        href="/"
-      >
-        <div >
+      <Link className="logo" href="/">
+        <div>
           <AcmeLogo />
         </div>
       </Link>
-      <div className="flex grow flex-row justify-between space-x-2 md:flex-col md:space-x-0 md:space-y-2">
+      <div className="flexContainer">
         <NavLinks items={items} />
-        <div className="hidden h-auto w-full grow rounded-md bg-gray-50 md:block"></div>
+        <div className="hiddenBlock"></div>
       </div>
     </div>
   );

@@ -3,6 +3,7 @@ import React from 'react';
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import './nav-links.css';
 
 export interface NavItem {
   title: string,
@@ -24,11 +25,15 @@ const NavLinks: React.FC<NavDropdownProps> = ({ items, depth = 0 }) => {
     setIsOpen(!isOpen);
   };
 
+  const imageSource = isOpen
+    ? '/terminal_arrow_gray_down.svg'
+    : '/terminal_arrow_gray.svg';
+
   const marginStyle = { marginLeft: `${depth * 20}px` }; // Calculate margin based on depth
 
   return items.map((item) => {
     return (
-      <div className='flex flex-col' style={marginStyle} >
+      <div className='linksContainer' style={marginStyle} >
         {item.href !== undefined
           ?
           <div className='flex'>
@@ -36,9 +41,9 @@ const NavLinks: React.FC<NavDropdownProps> = ({ items, depth = 0 }) => {
           </div>
           :
           <button onClick={toggleDropdown}>
-            <div className='flex'>
-              <Image src='/terminal_arrow_gray.svg' alt="img_missing"
-                width={12} height={12} />
+            <div className='nav-item'>
+              <Image src={imageSource} alt="img_missing"
+                width={16} height={16} />
               <p>{item.title}</p>
             </div>
           </button>

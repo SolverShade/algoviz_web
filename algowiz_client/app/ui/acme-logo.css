@@ -4,4 +4,9 @@
   height: 100%;
   width: 100%;
   column-gap: 1rem;
+  margin-left: 0.5rem;
+}
+
+.logoText {
+  font-size: 24px;
 }

@@ -9,7 +9,7 @@ export default function AcmeLogo() {
       className="logoContainer"
     >
       <Image src="/Globe.svg" alt="Globe icon" width={48} height={48} />
-      <p className="text-[36px]">Algowiz</p>
+      <p className="logoText">Algowiz</p>
     </div>
   );
 }
