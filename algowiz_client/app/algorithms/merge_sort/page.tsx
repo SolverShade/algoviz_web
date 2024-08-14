@@ -5,6 +5,8 @@ import p5 from 'p5';
 export default function Page() {
   const [name, setName] = useState('hello');
 
+  let myp5: p5;
+
   const Circle = () => {
     /*
     useEffect(() => {
@@ -38,7 +40,11 @@ export default function Page() {
           p.text(name, 50, 50);
         };
       }
-      new p5(sketch, sketchRef.current);
+      if (myp5 !== undefined) {
+        myp5.remove();
+      }
+
+      myp5 = new p5(sketch, sketchRef.current);
     }, []);
 
     return <div ref={sketchRef}></div>;
