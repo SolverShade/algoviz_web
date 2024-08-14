@@ -6,6 +6,8 @@
     "start": "next start"
   },
   "dependencies": {
+    "@p5-wrapper/next": "^1.0.3",
+    "@p5-wrapper/react": "^4.4.2",
     "@tailwindcss/forms": "^0.5.7",
     "@vector-js/library": "file:/home/powerbox/temp/vector-js.tar",
     "@vercel/postgres": "^0.8.0",
@@ -14,6 +16,7 @@
     "clsx": "^2.1.1",
     "next": "15.0.0-canary.56",
     "next-auth": "5.0.0-beta.19",
+    "p5": "^1.10.0",
     "postcss": "8.4.38",
     "react": "19.0.0-rc.0",
     "react-dom": "19.0.0-rc.0",
@@ -27,6 +30,7 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/node": "20.14.8",
+    "@types/p5": "^1.7.6",
     "@types/react": "18.3.3",
     "@types/react-dom": "18.3.0"
   },

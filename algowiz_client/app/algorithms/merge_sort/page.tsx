@@ -1,9 +1,12 @@
 'use client'
-import React, { useEffect } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import p5 from 'p5';
 
 export default function Page() {
-  function Circle() {
+  const [name, setName] = useState('hello');
+
+  const Circle = () => {
+    /*
     useEffect(() => {
       new p5((p: p5) => {
         p.setup = () => {
@@ -12,10 +15,33 @@ export default function Page() {
           p.background(200);
           p.circle(50, 50, 25);
         };
+
+        p.draw = () => {
+          p.text(name, 50, 50);
+        }
       },);
     }, []);
+    */
 
-    return <div id='p5Container'></div>;
+    const sketchRef: React.MutableRefObject<any> = useRef();
+
+    useEffect(() => {
+      let sketch = (p: p5) => {
+        p.setup = () => {
+          let canvas = p.createCanvas(100, 100);
+          canvas.parent(sketchRef.current);
+          p.background(200);
+          p.circle(50, 50, 25);
+        };
+
+        p.draw = () => {
+          p.text(name, 50, 50);
+        };
+      }
+      new p5(sketch, sketchRef.current);
+    }, []);
+
+    return <div ref={sketchRef}></div>;
   }
 
   return (
@@ -28,7 +54,8 @@ export default function Page() {
       </div>
       <div id='canvas1' className="visuals">
         <h1>visuals</h1>
-        <Circle></Circle>
+        <Circle />
+        <button onClick={() => setName("billy")}>click me</button>
       </div>
     </div>
   );
