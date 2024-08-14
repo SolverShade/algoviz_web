@@ -48,3 +48,17 @@ input[type='number']::-webkit-outer-spin-button {
     padding-right: 65%;
   }
 }
+
+@media (min-width: 768px) {
+  * {
+    .sidenav {
+      margin-left: 0rem;
+    }
+
+    .content {
+      margin-left: 3rem;
+    }
+
+    .visuals {}
+  }
+}
