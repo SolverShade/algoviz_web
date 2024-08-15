@@ -3,28 +3,10 @@ import React, { useEffect, useRef, useState } from 'react';
 import p5 from 'p5';
 
 export default function Page() {
+  let myp5: p5;
   const [name, setName] = useState('hello');
 
-  let myp5: p5;
-
   const Circle = () => {
-    /*
-    useEffect(() => {
-      new p5((p: p5) => {
-        p.setup = () => {
-          let canvas = p.createCanvas(100, 100);
-          canvas.parent('canvas1');
-          p.background(200);
-          p.circle(50, 50, 25);
-        };
-
-        p.draw = () => {
-          p.text(name, 50, 50);
-        }
-      },);
-    }, []);
-    */
-
     const sketchRef: React.MutableRefObject<any> = useRef();
 
     useEffect(() => {
@@ -33,10 +15,10 @@ export default function Page() {
           let canvas = p.createCanvas(100, 100);
           canvas.parent(sketchRef.current);
           p.background(200);
-          p.circle(50, 50, 25);
         };
 
         p.draw = () => {
+          p.circle(50, 50, 25);
           p.text(name, 50, 50);
         };
       }
