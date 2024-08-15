@@ -8,8 +8,17 @@ export default function Page() {
   const [name, setName] = useState('hello');
 
   const TreeCircle = () => {
-    let tree = new TreeNode('tree');
-    return tree.generateP5Tree(myp5, [1, 2, 3, 4])
+    let rootNode: TreeNode = new TreeNode('root');
+    rootNode.addChild('1');
+    rootNode.addChild('1');
+
+    rootNode.children[0].addChild('2');
+    rootNode.children[0].addChild('2');
+
+    rootNode.children[0].children[1].addChild('3');
+    rootNode.children[0].children[1].addChild('3');
+
+    return rootNode.generateP5Tree(myp5, [1, 2, 3, 4])
   }
 
   const Circle = () => {

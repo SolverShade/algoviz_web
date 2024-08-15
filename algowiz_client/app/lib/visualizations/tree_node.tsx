@@ -4,19 +4,45 @@ import p5 from 'p5';
 
 export default class TreeNode {
   value: any;
-  parent: TreeNode | null;
+  parent?: TreeNode | null;
   children: TreeNode[];
   depth: number;
 
-  constructor(value: any, parent: TreeNode | null = null) {
+  constructor(value: any, children: TreeNode[] = [], parent?: TreeNode,) {
     this.value = value;
     this.parent = parent;
-    this.children = [];
+    this.children = children;
     this.depth = this.calculateDepth();
   }
 
   calculateDepth(): number {
     return this.parent ? this.parent.depth + 1 : 0;
+  }
+
+  get isLeftChild(): boolean {
+    if (this.parent === null) {
+      return false;
+    }
+
+    if (this.parent?.children[0] === this) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
+  get isRightChild(): boolean {
+    if (this.parent === null) {
+      return false;
+    }
+
+    if (this.parent?.children[1] === this) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
   get isLeaf(): boolean {
@@ -28,7 +54,8 @@ export default class TreeNode {
   }
 
   addChild(value: any): TreeNode {
-    const child = new TreeNode(value, this);
+    const child = new TreeNode(value, [], this);
+    child.parent = this;
     this.children.push(child);
     return child;
   }
@@ -38,7 +65,6 @@ export default class TreeNode {
 
     useEffect(() => {
       let angle: number;
-      let len: number = 10;
 
       let sketch = (p: p5) => {
         p.setup = () => {
@@ -49,14 +75,15 @@ export default class TreeNode {
 
         p.draw = () => {
           p.background(0);
-          p.translate(p.width / 2, p.height);
-          branch(p, len);
+          p.translate(p.width / 2, 100);
+          branch(p, this);
         };
       }
 
+      /*
       function branch(p: p5, len: number) {
-        p.line(0, 0, 0, -len);
-        p.translate(0, -len);
+        p.line(0, 0, 0, len);
+        p.translate(0, len);
         if (len > 4) {
           p.push();
           p.rotate(angle);
@@ -71,6 +98,36 @@ export default class TreeNode {
         else {
           p.stroke(255, 0, 100);
           p.ellipse(0, 0, 8, 8);
+        }
+      }
+      */
+
+      function branch(p: p5, currentNode: TreeNode,
+        nodePosX: number = 0, nodePosY: number = 0) {
+        if (currentNode?.parent == null) {
+          p.circle(nodePosX, nodePosY, 25);
+        }
+
+        if (currentNode.children.length > 0) {
+          p.circle(nodePosX - 25, nodePosY + 25, 25);
+          p.line(nodePosX, nodePosY, nodePosX - 25, nodePosY + 25);
+        }
+
+        if (currentNode.children.length > 1) {
+          p.circle(nodePosX + 25, nodePosY + 25, 25);
+          p.line(nodePosX, nodePosY, nodePosX + 25, nodePosY + 25);
+        }
+
+        if (currentNode.parent != null && currentNode.parent.children[1] != null
+          && currentNode.parent.children[1].children.length > 0
+          && currentNode.parent.children[1] != currentNode) {
+          branch(p, currentNode.parent.children[1], nodePosX + 50, nodePosY);
+        }
+        else if (currentNode.children[0] != null) {
+          branch(p, currentNode.children[0], nodePosX - 25, nodePosY + 25);
+        }
+        else if (currentNode.children[1] != null) {
+          branch(p, currentNode.children[1], nodePosX + 25, nodePosY + 25);
         }
       }
 
