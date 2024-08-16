@@ -6,7 +6,7 @@ export default function Page() {
   let myp5: p5;
 
   const TreeCircle = () => {
-    let rootNode: TreeNode = new TreeNode('root');
+    let rootNode: TreeNode = new TreeNode('1');
     rootNode.addChild('1');
     rootNode.addChild('1');
 

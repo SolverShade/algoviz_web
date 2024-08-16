@@ -53,7 +53,7 @@ export default class TreeNode {
 
         p.draw = () => {
           /* eventually state may require re-rendering if the tree is changed,
-           * when this occurs find a way to conditionally redraw the tree as 
+           * when this occurs find a way to conditionally redraw the tree as
            * redrawing it every time would be highly inefficient
            */
         };
@@ -61,30 +61,48 @@ export default class TreeNode {
 
       function AddTreeViz(p: p5, currentNode: TreeNode,
         nodePosX: number = 0, nodePosY: number = 0) {
+        const radius: number = 12.5;
+        const diameter: number = radius * 2;
+        const spacing: number = 50;
+        const textOffset = radius / 3.1415;
+
         if (currentNode.isRoot == true) {
-          p.circle(nodePosX, nodePosY, 25);
+          p.circle(nodePosX, nodePosY, diameter);
+
+          p.text(currentNode.value, nodePosX - textOffset,
+            nodePosY + textOffset);
         }
 
         if (currentNode.leftChild != null) {
-          p.circle(nodePosX - 25, nodePosY + 25, 25);
-          p.line(nodePosX, nodePosY, nodePosX - 25, nodePosY + 25);
+          p.circle(nodePosX - spacing, nodePosY + spacing, diameter);
+
+          p.line(nodePosX - radius / 2, nodePosY + radius / 2,
+            nodePosX - spacing, nodePosY + spacing);
+
+          p.text(currentNode.value, nodePosX - spacing - textOffset,
+            nodePosY + spacing + textOffset);
         }
 
         if (currentNode.rightChild != null) {
-          p.circle(nodePosX + 25, nodePosY + 25, 25);
-          p.line(nodePosX, nodePosY, nodePosX + 25, nodePosY + 25);
+          p.circle(nodePosX + spacing, nodePosY + spacing, diameter);
+
+          p.line(nodePosX + radius / 2, nodePosY + radius / 2, nodePosX + spacing,
+            nodePosY + spacing);
+
+          p.text(currentNode.value, nodePosX + spacing - textOffset,
+            nodePosY + spacing + textOffset);
         }
 
         if (currentNode.parent != null && currentNode.parent.rightChild != null
           && currentNode.parent.rightChild.isLeaf == false
           && currentNode.parent.rightChild != currentNode) {
-          AddTreeViz(p, currentNode.parent.rightChild, nodePosX + 50, nodePosY);
+          AddTreeViz(p, currentNode.parent.rightChild, nodePosX + spacing * 2, nodePosY);
         }
         else if (currentNode.leftChild != null) {
-          AddTreeViz(p, currentNode.leftChild, nodePosX - 25, nodePosY + 25);
+          AddTreeViz(p, currentNode.leftChild, nodePosX - spacing, nodePosY + spacing);
         }
         else if (currentNode.rightChild != null) {
-          AddTreeViz(p, currentNode.rightChild, nodePosX + 25, nodePosY + 25);
+          AddTreeViz(p, currentNode.rightChild, nodePosX + spacing, nodePosY + spacing);
         }
       }
 
