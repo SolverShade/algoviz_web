@@ -1,17 +1,16 @@
 'use client'
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef } from 'react';
 import p5 from 'p5';
 
 export default class TreeNode {
   value: any;
   parent?: TreeNode | null;
-  children: TreeNode[];
+  leftChild?: TreeNode | null;
+  rightChild?: TreeNode | null;
   depth: number;
 
-  constructor(value: any, children: TreeNode[] = [], parent?: TreeNode,) {
+  constructor(value: any) {
     this.value = value;
-    this.parent = parent;
-    this.children = children;
     this.depth = this.calculateDepth();
   }
 
@@ -19,115 +18,73 @@ export default class TreeNode {
     return this.parent ? this.parent.depth + 1 : 0;
   }
 
-  get isLeftChild(): boolean {
-    if (this.parent === null) {
-      return false;
-    }
-
-    if (this.parent?.children[0] === this) {
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
-
-  get isRightChild(): boolean {
-    if (this.parent === null) {
-      return false;
-    }
-
-    if (this.parent?.children[1] === this) {
-      return true;
-    }
-    else {
-      return false;
-    }
-  }
-
   get isLeaf(): boolean {
-    return this.children.length === 0;
+    return this.leftChild == null && this.rightChild == null;
   }
 
   get isRoot(): boolean {
-    return this.parent === null;
+    return this.parent == null;
   }
 
-  addChild(value: any): TreeNode {
-    const child = new TreeNode(value, [], this);
+  addChild(value: any) {
+    const child = new TreeNode(value);
     child.parent = this;
-    this.children.push(child);
-    return child;
+    if (this.leftChild == undefined) {
+      this.leftChild = child;
+    } else if (this.rightChild == undefined) {
+      this.rightChild = child;
+    } else {
+      throw new Error('This node already has two children');
+    }
   }
 
-  generateP5Tree(p5instance: p5, values: any[]): JSX.Element {
+  generateP5Tree(p5instance: p5): JSX.Element {
     const sketchRef: React.MutableRefObject<any> = useRef();
 
     useEffect(() => {
-      let angle: number;
-
       let sketch = (p: p5) => {
         p.setup = () => {
           p.createCanvas(710, 400);
           p.stroke(255);
-          angle = p.PI / 4;
+          p.background(0);
+          p.translate(p.width / 2, 100);
+          AddTreeViz(p, this);
         };
 
         p.draw = () => {
-          p.background(0);
-          p.translate(p.width / 2, 100);
-          branch(p, this);
+          /* eventually state may require re-rendering if the tree is changed,
+           * when this occurs find a way to conditionally redraw the tree as 
+           * redrawing it every time would be highly inefficient
+           */
         };
       }
 
-      /*
-      function branch(p: p5, len: number) {
-        p.line(0, 0, 0, len);
-        p.translate(0, len);
-        if (len > 4) {
-          p.push();
-          p.rotate(angle);
-          branch(p, len * 0.67);
-          p.pop();
-          p.push();
-          p.rotate(-angle);
-          branch(p, len * 0.67);
-          p.pop();
-        }
-
-        else {
-          p.stroke(255, 0, 100);
-          p.ellipse(0, 0, 8, 8);
-        }
-      }
-      */
-
-      function branch(p: p5, currentNode: TreeNode,
+      function AddTreeViz(p: p5, currentNode: TreeNode,
         nodePosX: number = 0, nodePosY: number = 0) {
-        if (currentNode?.parent == null) {
+        if (currentNode.isRoot == true) {
           p.circle(nodePosX, nodePosY, 25);
         }
 
-        if (currentNode.children.length > 0) {
+        if (currentNode.leftChild != null) {
           p.circle(nodePosX - 25, nodePosY + 25, 25);
           p.line(nodePosX, nodePosY, nodePosX - 25, nodePosY + 25);
         }
 
-        if (currentNode.children.length > 1) {
+        if (currentNode.rightChild != null) {
           p.circle(nodePosX + 25, nodePosY + 25, 25);
           p.line(nodePosX, nodePosY, nodePosX + 25, nodePosY + 25);
         }
 
-        if (currentNode.parent != null && currentNode.parent.children[1] != null
-          && currentNode.parent.children[1].children.length > 0
-          && currentNode.parent.children[1] != currentNode) {
-          branch(p, currentNode.parent.children[1], nodePosX + 50, nodePosY);
+        if (currentNode.parent != null && currentNode.parent.rightChild != null
+          && currentNode.parent.rightChild.isLeaf == false
+          && currentNode.parent.rightChild != currentNode) {
+          AddTreeViz(p, currentNode.parent.rightChild, nodePosX + 50, nodePosY);
         }
-        else if (currentNode.children[0] != null) {
-          branch(p, currentNode.children[0], nodePosX - 25, nodePosY + 25);
+        else if (currentNode.leftChild != null) {
+          AddTreeViz(p, currentNode.leftChild, nodePosX - 25, nodePosY + 25);
         }
-        else if (currentNode.children[1] != null) {
-          branch(p, currentNode.children[1], nodePosX + 25, nodePosY + 25);
+        else if (currentNode.rightChild != null) {
+          AddTreeViz(p, currentNode.rightChild, nodePosX + 25, nodePosY + 25);
         }
       }
 
